@@ -1,4 +1,5 @@
-# JMMPresentation
+# A practical approach to Java Memory Model 
+
 ## JCStress is required
 # Clone
 ```
