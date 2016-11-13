@@ -9,7 +9,7 @@ import org.openjdk.jcstress.infra.results.IntResult2;
 public class Escape {
     final int x;
     volatile static Data y;
-    volatile static Escape i = new Escape();
+    static Escape i = new Escape();
     public Escape() {
         y = new Data();
         x = 1;

@@ -2,3 +2,4 @@ results/
 target/
 .idea/
 jcstress.*
+JMM.iml
