@@ -15,14 +15,13 @@ public class StoreLoad {
     @Actor
     public void actor1() {
         x = 1; //store
-        Thread.yield();
-        r1 = y; //load and store
+        r1 = y; //load
     }
 
     @Actor
     public void actor2() {
         y = 1; //store
-        r2 = x; // load and store
+        r2 = x; // load
     }
 
     @Arbiter
