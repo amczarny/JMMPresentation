@@ -6,8 +6,8 @@ import org.openjdk.jcstress.infra.results.IntResult2;
 @JCStressTest
 @State
 @Outcome(id = "[1, 1]", expect = Expect.ACCEPTABLE, desc = "Both actors have finished in the same time")
-@Outcome(id = "[0, 1]", expect = Expect.ACCEPTABLE, desc = "First Actor have finished before second")
-@Outcome(id = "[1, 0]", expect = Expect.ACCEPTABLE, desc = "Second Actors have finished before first")
+@Outcome(id = "[0, 1]", expect = Expect.ACCEPTABLE, desc = "First Actor has finished before second")
+@Outcome(id = "[1, 0]", expect = Expect.ACCEPTABLE, desc = "Second Actor has finished before first")
 @Outcome(id = "[0, 0]", expect = Expect.ACCEPTABLE_SPEC, desc = "Intel can reorder Stores with Load")
 public class StoreLoad {
     int x, y, r1, r2;
