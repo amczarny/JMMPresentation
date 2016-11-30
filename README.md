@@ -12,4 +12,4 @@ $ hg update 223:bda9fbee58c8
 $ mvn clean install -pl tests-custom -am
 $ java -jar tests-custom/target/jcstress.jar -h
 ```
-For more information please reffer to http://amczarny.blogspot.co.uk/
+For more information please reffer to http://www.happens-before.com/
