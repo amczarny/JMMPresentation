@@ -1,8 +1,5 @@
 package jitoptimization;
 
-import org.openjdk.jcstress.JCStress;
-import org.openjdk.jcstress.Main;
-
 public class JITOptimization {
     private static boolean flag = true;
     public static void main(String... args) throws InterruptedException {
@@ -30,6 +27,4 @@ public class JITOptimization {
     public static boolean getFlag() {
         return flag;
     }
-
 }
-
