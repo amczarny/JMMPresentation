@@ -1,7 +1,7 @@
 package jitoptimization;
 
 public class JITOptimization {
-    private static boolean flag = true;
+    private static volatile boolean flag = true;
     public static void main(String... args) throws InterruptedException {
         new Thread(JITOptimization::loop).start();
         Thread.sleep(1000);
