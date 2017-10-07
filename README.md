@@ -3,6 +3,8 @@
 # Build
 ```
 $ mvn clean install
-$ java -jar tests-custom/target/jcstress.jar -h
+
+# Execute 
+$ java -jar target/jcstress.jar -v -t [testName]
 ```
 For more information please reffer to http://www.happens-before.com/
