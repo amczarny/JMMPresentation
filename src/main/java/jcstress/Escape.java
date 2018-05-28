@@ -53,6 +53,6 @@ public class Escape {
    @Actor
    public void actor2(II_Result r) {
       r.r1 = supplier.getAsInt();
-      r.r2 = getX();
+      r.r2 = escape.getX();
    }
 }

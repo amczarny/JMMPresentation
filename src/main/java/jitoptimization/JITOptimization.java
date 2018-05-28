@@ -23,31 +23,22 @@
 package jitoptimization;
 
 public class JITOptimization {
-   private static boolean flag = true;
+   private static boolean enabled = true;
 
    public static void main(String... args) throws InterruptedException {
       new Thread(JITOptimization::loop).start();
       Thread.sleep(1000);
-      new Thread(JITOptimization::terminate).start();
-   }
-
-   private static void terminate() {
-      flag = false;
-      System.out.println("Flag has been changed");
+      enabled = false;
+      System.out.println("Shutdown");
    }
 
    private static void loop() {
-      boolean printOnce = true;
-      while (getFlag()) {
-         if (printOnce) {
-            printOnce = false;
-            System.out.println("I'm in the loop");
-         }
-      }
-      System.out.println("I'm outside of the loop");
+      System.out.println("Start");
+      while (isEnabled()) {}
+      System.out.println("End");
    }
 
-   private static boolean getFlag() {
-      return flag;
+   private static boolean isEnabled() {
+      return enabled;
    }
 }
