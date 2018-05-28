@@ -1,6 +1,7 @@
 # A practical approach to Java Memory Model 
 # Presentation
   https://www.youtube.com/watch?v=pS5dPQwgnYo
+  
   https://speakerdeck.com/amczarny/a-practical-approach-to-java-memory-model
 # Build
 ```
