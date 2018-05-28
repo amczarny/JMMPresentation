@@ -1,15 +1,11 @@
 # A practical approach to Java Memory Model 
-
-## JCStress is required
-# Clone
-```
-$ hg clone http://hg.openjdk.java.net/code-tools/jcstress/ jcstress
-$ cd jcstress
-$ hg update 223:bda9fbee58c8
-```
+# Presentation
+  https://speakerdeck.com/amczarny/a-practical-approach-to-java-memory-model
 # Build
 ```
-$ mvn clean install -pl tests-custom -am
-$ java -jar tests-custom/target/jcstress.jar -h
+$ mvn clean install
+
+# Execute 
+$ java -jar target/jcstress.jar -v -t [testName]
 ```
 For more information please reffer to http://www.happens-before.com/
