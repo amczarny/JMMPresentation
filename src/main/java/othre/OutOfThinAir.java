@@ -20,18 +20,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pattern;
+package othre;
 
-public class StatusFlag {
-   private volatile boolean stop;
+import org.openjdk.jcstress.annotations.*;
+import org.openjdk.jcstress.infra.results.II_Result;
 
-   public void shutdown() {
-      stop = true;
+@JCStressTest
+@State
+@Description("No data races. Program is correctly synchronized")
+@Outcome(id = "0, 0", expect = Expect.ACCEPTABLE)
+public class OutOfThinAir {
+   int x, y;
+
+   @Actor
+   public void actor1(II_Result r) {
+      r.r1 = x;
+      if (r.r1 != 0) {
+         y = 1;
+      }
    }
 
-   public void doWork() {
-      while (!stop) {
-         // do stuff
+   @Actor
+   public void actor2(II_Result r) {
+      r.r2 = y;
+      if (r.r2 != 0) {
+         x = 1;
       }
    }
 }

@@ -20,18 +20,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pattern;
+package krakowjdd;
 
-public class StatusFlag {
-   private volatile boolean stop;
+import org.openjdk.jcstress.annotations.*;
+import org.openjdk.jcstress.infra.results.L_Result;
 
-   public void shutdown() {
-      stop = true;
+import java.io.Serializable;
+
+@JCStressTest
+@Outcome(id = "null", expect = Expect.FORBIDDEN)
+@Outcome(id = "NotNull", expect = Expect.ACCEPTABLE)
+@State
+public class StaticInitialization implements Serializable {
+   static StaticInitialization i = new StaticInitialization();
+
+   @Actor public void actor2(L_Result r) {
+      r.r1 = i;
    }
 
-   public void doWork() {
-      while (!stop) {
-         // do stuff
-      }
+   @Actor public void actor1() {
+      i = new StaticInitialization();
+   }
+
+   @Override
+   public String toString() {
+      return "NotNull";
    }
 }
