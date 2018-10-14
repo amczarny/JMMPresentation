@@ -20,31 +20,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jcstress;
+package krakowjdd;
 
 import org.openjdk.jcstress.annotations.*;
 import org.openjdk.jcstress.infra.results.II_Result;
 
-@JCStressTest
-@State
-@Description("No data races. Program is correctly synchronized")
-@Outcome(id = "0, 0", expect = Expect.ACCEPTABLE)
-public class OutOfThinAir {
-   int x, y;
+import java.io.Serializable;
 
-   @Actor
-   public void actor1(II_Result r) {
-      r.r1 = x;
-      if (r.r1 != 0) {
-         y = 1;
+@JCStressTest
+@Outcome(id = "1, 2", expect = Expect.ACCEPTABLE)
+//-100 represents null;
+@State
+public class NotFinalHolder implements Serializable {
+   static Holder holder = new Holder();
+
+   @Actor public void actor1() {
+      holder = new Holder();
+   }
+
+   @Actor public void actor2(II_Result r) {
+      Holder localHolder = holder;
+      if (localHolder.instance == null) {
+         r.r1 = r.r2 = -100;
+      } else {
+         r.r1 = localHolder.instance.a;
+         r.r2 = localHolder.instance.b;
       }
    }
 
-   @Actor
-   public void actor2(II_Result r) {
-      r.r2 = y;
-      if (r.r2 != 0) {
-         x = 1;
+   private static class Holder{
+      Mutable instance;
+      Holder() {
+         //assume as effectively immutable - fields of the instance will never be changed after construction
+         instance = new Mutable();
       }
+   }
+
+   private static class Mutable {
+      int a;
+      int b;
+      Mutable() {
+         a = 1;
+         b = 2;
+      }
+
    }
 }

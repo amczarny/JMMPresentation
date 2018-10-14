@@ -20,31 +20,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jcstress;
+package krakowjdd;
 
 import org.openjdk.jcstress.annotations.*;
-import org.openjdk.jcstress.infra.results.I_Result;
+import org.openjdk.jcstress.infra.results.II_Result;
+
+import java.io.Serializable;
 
 @JCStressTest
-@Outcome(id = "1", expect = Expect.ACCEPTABLE, desc = "Actor2 is executed before Actor1")
-@Outcome(id = "2", expect = Expect.ACCEPTABLE, desc = "Actor2 is executed after y = 2 and before x = 3 in Actor1")
-@Outcome(id = "3", expect = Expect.FORBIDDEN, desc = "y = 2 can not be reordered with x = 3 as we have volatile on x")
-@Outcome(id = "6", expect = Expect.ACCEPTABLE, desc = "Actor2 executed after Actor1")
+@Outcome(id = "1, 2", expect = Expect.ACCEPTABLE)
 @State
-public class AmISynchronized {
-   int y = 1;
-   volatile int x = 1;
+public class FinalHolder implements Serializable {
+   static Holder holder = new Holder();
 
-   @Actor
-   public void actor1() {
-      y = 2;
-      x = 3;
+   @Actor public void actor1() {
+      holder = new Holder();
    }
 
-   @Actor
-   public void actor2(I_Result r) {
-      r.r1 = y * x;
+   @Actor public void actor2(II_Result r) {
+      Holder localHolder = holder;
+      if (localHolder.instance == null) {
+         r.r1 = r.r2 = -100;
+      } else {
+         r.r1 = localHolder.instance.a;
+         r.r2 = localHolder.instance.b;
+      }
+   }
+
+   private static class Holder{
+      final Mutable instance;
+      Holder() {
+         //assume as effectively immutable - fields of the instance will never be changed after construction
+         instance = new Mutable();
+      }
+   }
+
+   private static class Mutable {
+      int a;
+      int b;
+      Mutable() {
+         a = 1;
+         b = 2;
+      }
+
    }
 }
-
-

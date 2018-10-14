@@ -20,31 +20,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jcstress;
+package wroclawjug;
 
 import org.openjdk.jcstress.annotations.*;
-import org.openjdk.jcstress.infra.results.I_Result;
+import org.openjdk.jcstress.infra.results.III_Result;
 
 @JCStressTest
-@Outcome(id = "1", expect = Expect.ACCEPTABLE, desc = "Actor2 is executed before Actor1")
-@Outcome(id = "2", expect = Expect.ACCEPTABLE, desc = "Actor2 is executed after y = 2 and before x = 3 in Actor1")
-@Outcome(id = "3", expect = Expect.FORBIDDEN, desc = "y = 2 can not be reordered with x = 3 as we have volatile on x")
-@Outcome(id = "6", expect = Expect.ACCEPTABLE, desc = "Actor2 executed after Actor1")
+@Outcome(id = "1, 2, 3", expect = Expect.ACCEPTABLE)
+@Outcome(expect = Expect.FORBIDDEN, desc = "We should not be able to access uninitialized instance variables")
 @State
-public class AmISynchronized {
-   int y = 1;
-   volatile int x = 1;
+public class WroclawJUGQuestion {
+   static WroclawJUGQuestion i = new WroclawJUGQuestion();
+   volatile int x;
+   volatile int y;
+   volatile int z;
 
-   @Actor
-   public void actor1() {
+   WroclawJUGQuestion() {
+      x = 1;
       y = 2;
-      x = 3;
+      z = 3;
    }
 
-   @Actor
-   public void actor2(I_Result r) {
-      r.r1 = y * x;
+   @Actor public void actor1() {
+      i = new WroclawJUGQuestion();
+   }
+
+   @Actor public void actor2(III_Result r) {
+      WroclawJUGQuestion tmp = i;
+      r.r1 = tmp.x;
+      r.r2 = tmp.y;
+      r.r3 = tmp.z;
    }
 }
-
-
