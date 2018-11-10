@@ -10,4 +10,4 @@ $ mvn clean install
 # Execute 
 $ java -jar target/jcstress.jar -v -t [testName]
 ```
-For more information please reffer to http://www.happens-before.com/
+For more information please reffer to http://amczarny.blogspot.com/
